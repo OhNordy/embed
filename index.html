@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        iframe{
+            width:100vw;
+            height:100vh;
+        }
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        form{
+            margin:auto;
+        }
+    </style>
+
+</head>
+
+<body id="bodyer">
+    <form id="former">
+        <label>Paste in embed html code or qz link here</label>
+        <input id="inputter" type="text" value="">
+        <input id="submitter" type="submit" value="Submit">
+    </form>
+
+   <script>
+        let input = document.getElementById('inputter');
+        let submit = document.getElementById('submitter');
+        let form = document.getElementById("former");
+        let body = document.getElementById("bodyer");
+
+        let value = input.value;
+        form.onsubmit = ()=>{
+            value = input.value;
+
+            if(value.match("<iframe src=") !== null){
+                body.innerHTML = value;
+            }else{
+
+                //check to see if user added http or https to start of url and account for that
+                if(value[0] + value[1] + value[2] + value[3] !== "http"){
+                    value = "https://" + value;
+                }
+                
+                //change url to work for qz embed by cutting off last / / section and adding learn/embed?i=1bxztw&x=1jj1
+                let valSplit = value.split("/");
+                value = valSplit[0] + "//" + valSplit[2] + "/" + valSplit[3] + "/";
+                value += "learn/embed?i=1bxztw&x=1jj1";
+                console.log(value);
+
+                body.innerHTML = "<iframe src=" + value + " height='500' width='100%'' style='border:0'></iframe>";
+
+            }
+
+        };
+
+   </script>
+   
+
+</body>
